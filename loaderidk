@@ -207,7 +207,7 @@ authButton.MouseButton1Click:Connect(function()
         loadingLabel.Text = "Access Granted!"
         wait(2)
         screenGui:Destroy()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/drillygzzly/Other/main/1"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AstroCheatsV2/AstroCheat/refs/heads/main/main.luau"))()
     else
         failSound:Play()
         loadingLabel.Text = "Invalid key. Try again."
