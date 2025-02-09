@@ -1,1 +1,221 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
 
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AstroCheatsAuth"
+screenGui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.4, 0, 0.5, 0)
+frame.Position = UDim2.new(0.3, 0, 0.25, 0)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 40)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+local gradientBackground = Instance.new("UIGradient")
+gradientBackground.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 80)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(100, 100, 150)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+})
+gradientBackground.Parent = frame
+
+local function animateBackgroundGradient()
+    local direction = 0
+    while true do
+        direction = direction + 1
+        gradientBackground.Rotation = direction
+        wait(0.03)
+    end
+end
+
+spawn(animateBackgroundGradient)
+
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 80)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+})
+gradient.Parent = frame
+
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0.1, 0)
+uiCorner.Parent = frame
+
+local separator = Instance.new("Frame")
+separator.Size = UDim2.new(0.005, 0, 0.8, 0)
+separator.Position = UDim2.new(0.5, 0, 0.1, 0)
+separator.BackgroundColor3 = Color3.fromRGB(100, 100, 200)
+separator.BorderSizePixel = 0
+separator.Parent = frame
+
+local leftLabel = Instance.new("TextLabel")
+leftLabel.Size = UDim2.new(0.5, 0, 1, 0)
+leftLabel.Position = UDim2.new(0, 0, 0, 0)
+leftLabel.Text = "ASTRO\nCHEATS"
+leftLabel.Font = Enum.Font.GothamBold
+leftLabel.TextSize = 30
+leftLabel.TextColor3 = Color3.fromRGB(200, 200, 255)
+leftLabel.BackgroundTransparency = 1
+leftLabel.Parent = frame
+
+local textGradient = Instance.new("UIGradient")
+textGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 100, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 100, 100))
+})
+textGradient.Rotation = 0
+textGradient.Parent = leftLabel
+
+spawn(function()
+    while true do
+        for i = 0, 360, 2 do
+            textGradient.Rotation = i
+            wait(0.05)
+        end
+    end
+end)
+
+local welcomeFrame = Instance.new("Frame")
+welcomeFrame.Size = UDim2.new(0.5, 0, 0.2, 0)
+welcomeFrame.Position = UDim2.new(0.5, 0, 0.1, 0)
+welcomeFrame.BackgroundTransparency = 1
+welcomeFrame.Parent = frame
+
+local welcomeLabel = Instance.new("TextLabel")
+welcomeLabel.Size = UDim2.new(1, 0, 0.5, 0)
+welcomeLabel.Text = "Welcome"
+welcomeLabel.Font = Enum.Font.Gotham
+welcomeLabel.TextSize = 16
+welcomeLabel.TextColor3 = Color3.fromRGB(180, 180, 220)
+welcomeLabel.BackgroundTransparency = 1
+welcomeLabel.Parent = welcomeFrame
+
+local usernameLabel = Instance.new("TextLabel")
+usernameLabel.Size = UDim2.new(1, 0, 0.5, 0)
+usernameLabel.Position = UDim2.new(0, 0, 0.5, 0)
+usernameLabel.Text = player.Name
+usernameLabel.Font = Enum.Font.GothamBold
+usernameLabel.TextSize = 20
+usernameLabel.TextColor3 = Color3.fromRGB(220, 220, 255)
+usernameLabel.BackgroundTransparency = 1
+usernameLabel.TextScaled = true
+usernameLabel.Parent = welcomeFrame
+
+local keyFrame = Instance.new("Frame")
+keyFrame.Size = UDim2.new(0.4, 0, 0.08, 0)
+keyFrame.Position = UDim2.new(0.55, 0, 0.4, 0)
+keyFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keyFrame.BorderSizePixel = 0
+keyFrame.Parent = frame
+
+local keyCorner = Instance.new("UICorner")
+keyCorner.CornerRadius = UDim.new(0.2, 0)
+keyCorner.Parent = keyFrame
+
+local keyInput = Instance.new("TextBox")
+keyInput.Size = UDim2.new(1, 0, 1, 0)
+keyInput.Text = ""
+keyInput.Font = Enum.Font.Gotham
+keyInput.TextSize = 14
+keyInput.TextColor3 = Color3.fromRGB(50, 50, 50)
+keyInput.BackgroundTransparency = 1
+keyInput.PlaceholderText = "Enter Authorization Key"
+keyInput.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
+keyInput.Parent = keyFrame
+
+local authButton = Instance.new("TextButton")
+authButton.Size = UDim2.new(0.4, 0, 0.08, 0)
+authButton.Position = UDim2.new(0.55, 0, 0.5, 0)
+authButton.Text = "ACCESS"
+authButton.Font = Enum.Font.GothamBold
+authButton.TextSize = 16
+authButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+authButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+authButton.Parent = frame
+
+local uiCornerButton = Instance.new("UICorner")
+uiCornerButton.CornerRadius = UDim.new(0.3, 0)
+uiCornerButton.Parent = authButton
+
+local successSound = Instance.new("Sound", player.Character)
+successSound.SoundId = "rbxassetid://1289263994"
+local failSound = Instance.new("Sound", player.Character)
+failSound.SoundId = "rbxassetid://5521959695"
+local blockSound = Instance.new("Sound", player.Character)
+blockSound.SoundId = "rbxassetid://1488973826"
+
+local idLabel = Instance.new("TextLabel")
+idLabel.Size = UDim2.new(0.8, 0, 0.05, 0)
+idLabel.Position = UDim2.new(0, 0, 0.95, 0)
+idLabel.Text = "ID: " .. math.random(100000, 999999)
+idLabel.Font = Enum.Font.Gotham
+idLabel.TextSize = 14
+idLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+idLabel.BackgroundTransparency = 1
+idLabel.Parent = frame
+
+local copyButton = Instance.new("TextButton")
+copyButton.Size = UDim2.new(0.1, 0, 0.05, 0)
+copyButton.Position = UDim2.new(0.85, 0, 0.95, 0)
+copyButton.Text = "📄"
+copyButton.Font = Enum.Font.Gotham
+copyButton.TextSize = 12
+copyButton.BackgroundTransparency = 1
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyButton.Parent = frame
+
+copyButton.MouseButton1Click:Connect(function()
+    setclipboard(idLabel.Text)
+end)
+
+local loadingLabel
+
+local function checkKey(key)
+    local validKeys = {"hihi", "anotherkey", "yetanotherkey"}
+    return table.find(validKeys, key) ~= nil
+end
+
+local failedAttempts = 0
+authButton.MouseButton1Click:Connect(function()
+    local enteredKey = keyInput.Text
+    loadingLabel = Instance.new("TextLabel")
+    loadingLabel.Size = UDim2.new(0.4, 0, 0.1, 0)
+    loadingLabel.Position = UDim2.new(0.6, 0, 0.58, 0)
+    loadingLabel.Text = "Loading..."
+    loadingLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    loadingLabel.Font = Enum.Font.Code
+    loadingLabel.TextSize = 14
+    loadingLabel.BackgroundTransparency = 1
+    loadingLabel.Parent = frame
+
+    if failedAttempts >= 3 then
+        blockSound:Play()
+        loadingLabel.Text = "Too many failed attempts. Try again later."
+        wait(2)
+        loadingLabel:Destroy()
+        failedAttempts = 0
+    elseif checkKey(enteredKey) then
+        successSound:Play()
+        loadingLabel.Text = "Access Granted!"
+        loadingLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        loadingLabel.Font = Enum.Font.GothamBold
+        loadingLabel.TextSize = 18
+        wait(0.37)
+        loadingLabel:Destroy()
+        screenGui:Destroy()
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AstroCheatsV2/AstroCheat/refs/heads/main/main.luau"))()
+    else
+        failSound:Play()
+        failedAttempts = failedAttempts + 1
+        loadingLabel.Text = "Invalid key. Try again."
+        loadingLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        wait(2)
+        loadingLabel:Destroy()
+    end
+end)
